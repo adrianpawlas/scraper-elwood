@@ -1,0 +1,8 @@
+requests
+supabase
+transformers
+torch
+Pillow
+beautifulsoup4
+python-dotenv
+tqdm
