@@ -57,7 +57,11 @@ class SigLIPEmbedder:
                 inputs = {k: v.to(self.device) for k, v in inputs.items()}
 
                 with torch.no_grad():
-                    features = self.model.get_image_features(**inputs)
+                    outputs = self.model.get_image_features(**inputs)
+                    if hasattr(outputs, 'pooler_output'):
+                        features = outputs.pooler_output
+                    else:
+                        features = outputs
 
                 features = features / features.norm(dim=-1, keepdim=True)
                 return features[0].cpu().float().tolist()
@@ -88,14 +92,19 @@ class SigLIPEmbedder:
                     padding="max_length",
                     truncation=True,
                     max_length=SIGLIP_MAX_TEXT_LENGTH,
+                    return_attention_mask=True,
                 )
                 inputs = {k: v.to(self.device) for k, v in inputs.items()}
 
                 with torch.no_grad():
-                    features = self.model.get_text_features(
+                    outputs = self.model.get_text_features(
                         input_ids=inputs["input_ids"],
                         attention_mask=inputs["attention_mask"],
                     )
+                    if hasattr(outputs, 'pooler_output'):
+                        features = outputs.pooler_output
+                    else:
+                        features = outputs
 
                 features = features / features.norm(dim=-1, keepdim=True)
                 return features[0].cpu().float().tolist()
