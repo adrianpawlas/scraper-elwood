@@ -32,7 +32,7 @@ PRODUCTS_PER_PAGE: int = 250  # Shopify max
 # ── Brand metadata ────────────────────────────────────────────────────────────
 SOURCE: str = "scraper-elwood"
 BRAND: str = "Elwood"
-COUNTRY: str = "US"
+COUNTRY: str = ""
 
 # ── SigLIP embedding model ────────────────────────────────────────────────────
 MODEL_NAME: str = "google/siglip-base-patch16-384"
